@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ctmc="http://example/ctmc">
+  <ctmc:CTMC name="ProtectionTeam" guardExpression="noCondition"/>
+  <ctmc:CTMC name="ExtinguishTeam" guardExpression="noCondition"/>
+  <ctmc:CTMC name="PT_ProtectionTeam=FireStation_ProtectionTeam_1">
+    <states id="Protecting" name="Protecting"/>
+    <states id="Refilling" name="Refilling"/>
+    <states id="Idle" name="Idle"/>
+    <states id="Operational" name="Operational"/>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="PT_FireBrigade1">
+    <states id="Protecting" name="Protecting"/>
+    <states id="Refilling" name="Refilling"/>
+    <states id="Idle" name="Idle"/>
+    <states id="Operational" name="Operational"/>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="PT_FireBrigade2">
+    <states id="Protecting" name="Protecting"/>
+    <states id="Refilling" name="Refilling"/>
+    <states id="Idle" name="Idle"/>
+    <states id="Operational" name="Operational"/>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="ET_ExtinguishTeam=FireStation_ExtinguishTeam_2">
+    <states id="Protecting" name="Protecting"/>
+    <states id="Refilling" name="Refilling"/>
+    <states id="Idle" name="Idle"/>
+    <states id="Operational" name="Operational"/>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="ET_FireBrigade1">
+    <states id="Protecting" name="Protecting"/>
+    <states id="Refilling" name="Refilling"/>
+    <states id="Idle" name="Idle"/>
+    <states id="Operational" name="Operational"/>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="ET_FireBrigade2">
+    <states id="Protecting" name="Protecting"/>
+    <states id="Refilling" name="Refilling"/>
+    <states id="Idle" name="Idle"/>
+    <states id="Operational" name="Operational"/>
+  </ctmc:CTMC>
+  <ctmc:Grid xMax="10" yMax="10"/>
+</xmi:XMI>

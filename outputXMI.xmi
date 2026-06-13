@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctmc="http://example/ctmc" xmlns:tcoel="http://example/tcoel">
+  <ctmc:CTMC name="FireBrigadeEnsemble_Easy" utility="1.0" guardExpression="(FIRE_INTENSITY = 3) AND (WATER_LEVEL = 3) AND (NUMBER_OF_AGENTS = 6) AND (WITHIN_GRID = true) AND (AGENT_DISTANCE = near) AND (PROB_REACH_OBJECTIVE = 0.97) AND (PROB_SOLVE_OBJECTIVE = 0.96)"/>
+  <ctmc:CTMC name="fireTruck1">
+    <transition xsi:type="tcoel:Transition" name="dispatch" condition="" rate="1.2">
+      <initial name="Idle"/>
+      <target name="Navigating"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="arrive" condition="" rate="1.0">
+      <initial name="Navigating"/>
+      <target name="Extinguishing"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="extinguish_ok" condition="" rate="1.1">
+      <initial name="Extinguishing"/>
+      <target name="Idle"/>
+    </transition>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="fireTruck2">
+    <transition xsi:type="tcoel:Transition" name="dispatch" condition="" rate="1.2">
+      <initial name="Idle"/>
+      <target name="Navigating"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="arrive" condition="" rate="1.0">
+      <initial name="Navigating"/>
+      <target name="Extinguishing"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="extinguish_ok" condition="" rate="1.1">
+      <initial name="Extinguishing"/>
+      <target name="Idle"/>
+    </transition>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="fireTruck3">
+    <transition xsi:type="tcoel:Transition" name="dispatch" condition="" rate="1.2">
+      <initial name="Idle"/>
+      <target name="Navigating"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="arrive" condition="" rate="1.0">
+      <initial name="Navigating"/>
+      <target name="Extinguishing"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="extinguish_ok" condition="" rate="1.1">
+      <initial name="Extinguishing"/>
+      <target name="Idle"/>
+    </transition>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="fireTruck4">
+    <transition xsi:type="tcoel:Transition" name="dispatch" condition="" rate="1.2">
+      <initial name="Idle"/>
+      <target name="Navigating"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="arrive" condition="" rate="1.0">
+      <initial name="Navigating"/>
+      <target name="Extinguishing"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="extinguish_ok" condition="" rate="1.1">
+      <initial name="Extinguishing"/>
+      <target name="Idle"/>
+    </transition>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="fireTruck5">
+    <transition xsi:type="tcoel:Transition" name="dispatch" condition="" rate="1.2">
+      <initial name="Idle"/>
+      <target name="Navigating"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="arrive" condition="" rate="1.0">
+      <initial name="Navigating"/>
+      <target name="Extinguishing"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="extinguish_ok" condition="" rate="1.1">
+      <initial name="Extinguishing"/>
+      <target name="Idle"/>
+    </transition>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="fireTruck6">
+    <transition xsi:type="tcoel:Transition" name="dispatch" condition="" rate="1.2">
+      <initial name="Idle"/>
+      <target name="Navigating"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="arrive" condition="" rate="1.0">
+      <initial name="Navigating"/>
+      <target name="Extinguishing"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="extinguish_ok" condition="" rate="1.1">
+      <initial name="Extinguishing"/>
+      <target name="Idle"/>
+    </transition>
+  </ctmc:CTMC>
+  <ctmc:Grid xMax="10" yMax="10"/>
+</xmi:XMI>

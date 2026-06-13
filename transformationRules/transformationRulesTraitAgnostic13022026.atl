@@ -1,0 +1,255 @@
+-- @path MM=/PHDMadinahNewUpdates/metamodels/tcoel.ecore
+-- @path MM1=/PHDMadinahNewUpdates/metamodels/ctmc.ecore
+-- @atlcompiler emftvm
+
+module transformationRulesTraitAgnostic13022026;
+create OUT : ctmc from IN : tcoel;
+
+-- =========================================================
+-- Rule 1 : Ensemble → CTMC
+-- =========================================================
+
+rule Ensemble2CTMC {
+
+    from ens : tcoel!Ensemble
+
+    to c : ctmc!CTMC (
+        name <- ens.name,
+        utility <- ens.utility,
+        guardExpression <- ens.getConditionText(),
+        states <- ens.component
+                ->collect(comp | comp.role.state)
+                ->flatten() ->asOrderedSet(),
+
+        transition <-
+            ens.component
+                ->collect(comp | comp.role.transition)
+                ->flatten() ->asOrderedSet()
+    )
+}
+
+-- =========================================================
+-- Rule 2 : Component → CTMC
+-- =========================================================
+
+rule Component2CTMC {
+
+    from comp : tcoel!Component
+
+    to c : ctmc!CTMC (
+        name <- comp.name,
+        states <- comp.role.state ->asOrderedSet(),
+        transition <- comp.role.transition ->asOrderedSet()
+    )
+}
+
+-- =========================================================
+-- Rule 3 : State → State
+-- =========================================================
+
+rule State2State {
+
+    from s : tcoel!State
+    to t : ctmc!State (
+        id <-
+            if not s.id.oclIsUndefined() and s.id <> '' then
+                s.id
+            else
+                if not s.name.oclIsUndefined() and s.name <> '' then
+                    s.name
+                else
+                    'default_id'
+                endif
+            endif,
+
+        name <-
+            if not s.name.oclIsUndefined() and s.name <> '' then
+                s.name
+            else
+                'unnamed'
+            endif
+    )
+}
+
+-- =========================================================
+-- Rule 4 : Transition → Transition
+-- =========================================================
+
+rule Transition2Transition {
+    from t : tcoel!Transition
+    to ct : ctmc!Transition (
+        name <- thisModule.resolveTransitionName(t),
+        source <- t.source,
+        target <- t.target,
+        rate <- t.dynRate()
+    )
+}
+
+-- =========================================================
+-- Rule 5 : Map → Grid
+-- =========================================================
+
+rule Map2Grid {
+    from m : tcoel!MapSize
+    to g : ctmc!Grid (
+        xMax <- m.xGrid,
+		yMax <- m.yGrid
+    )
+}
+
+-- =========================================================
+-- HELPERS
+-- =========================================================
+
+helper def : getRate() : Real = 0.3;
+
+-- =========================================================
+-- State Helpers
+-- =========================================================
+
+helper def : safeStateName(s : tcoel!State) : String =
+    if not s.name.oclIsUndefined() and s.name <> '' then s.name
+    else
+        if not s.id.oclIsUndefined() and s.id <> '' then s.id
+        else 'unnamed'
+        endif
+    endif;
+
+helper context String def : resolveState() : ctmc!State =
+    ctmc!State.allInstances()
+        ->any(s | s.name = self or s.id = self);
+
+helper def : edgeEndName(maybe : OclAny) : String =
+    if maybe.oclIsUndefined() then ''
+    else
+        if maybe.oclIsKindOf(String) then  maybe.oclAsType(String)
+        else
+            if maybe.oclIsKindOf(tcoel!State) then
+                thisModule.safeStateName(
+                    maybe.oclAsType(tcoel!State)
+                )
+            else ''
+            endif
+        endif
+    endif;
+
+-- =========================================================
+-- Owner Component
+-- =========================================================
+
+helper def : ownerComponent(t : tcoel!Transition)
+: tcoel!Component = tcoel!Component.allInstances()
+        ->select(c | c.role.transition->includes(t))
+        ->any(true);
+
+-- =========================================================
+-- Numeric Helpers
+-- =========================================================
+
+helper def : isNum(s : String) : Boolean =
+    not s.oclIsUndefined()
+    and s <> ''
+    and s.matches(
+       '^[-+]?([0-9]+(\\.[0-9]+)?|\\.[0-9]+)$'
+    );
+
+helper def : attrFactor(c : tcoel!Component) : Real =
+    c.attributes
+      ->select(a |thisModule.isNum(a.description)
+           and a.name.toLower() <> 'rate'
+       )
+      ->iterate(
+           a;
+           acc : Real = 1.0 | acc * a.description.toReal()
+       );
+
+helper def : hasBaseAttrRate(c : tcoel!Component) : Boolean =
+
+    not c.attributes
+      ->select(a |a.name.toLower() = 'rate'
+            and thisModule.isNum(a.description)
+      )
+      ->isEmpty();
+
+helper def : baseAttrRate(c : tcoel!Component) : Real =
+     c.attributes->select(a | a.name.toLower() = 'rate'
+          and thisModule.isNum(a.description))
+      ->first()
+      .description
+      .toReal();
+
+-- =========================================================
+-- Dynamic Rate
+-- =========================================================
+
+helper context tcoel!Transition
+def : dynRate() : Real =
+
+    let c : tcoel!Component =
+        thisModule.ownerComponent(self)
+    in
+    let base : Real =
+        if not self.rate.oclIsUndefined()
+           and self.rate <> 0.0 then  self.rate
+        else
+            if not self.baseRate.oclIsUndefined()
+               and self.baseRate <> 0.0 then self.baseRate
+            else
+                if thisModule.hasBaseAttrRate(c) then thisModule.baseAttrRate(c)
+                else thisModule.getRate()
+                endif
+            endif
+        endif
+    in
+    if c.oclIsUndefined() then base
+    else base * thisModule.attrFactor(c)
+    endif;
+
+-- =========================================================
+-- Transition Labels
+-- =========================================================
+
+helper def : resolveTransitionName(
+    trans : tcoel!Transition
+) : String =
+
+    if not trans.label.oclIsUndefined()
+       and trans.label <> '' then trans.label
+    else
+        if not trans.name.oclIsUndefined()
+           and trans.name <> '' then trans.name
+        else 'step'
+        endif
+    endif;
+
+-- =========================================================
+-- Condition Handling
+-- =========================================================
+
+helper def : condRhs( c : tcoel!Condition) : String =
+
+    if not c.value.oclIsUndefined()
+       and c.value <> '' then c.value
+    else
+        if not c.description.oclIsUndefined()
+           and c.description <> '' then c.description
+        else '0'
+        endif
+    endif;
+
+helper context tcoel!Ensemble
+def : getConditionText() : String =
+    if self.condition->isEmpty() then   'noCondition'
+
+    else
+
+        self.condition  ->iterate( c;
+            acc : String = '' | let rhs : String =  thisModule.condRhs(c)
+            in if acc = '' then
+                '(' + c.name + ' = ' + rhs + ')'
+            else
+                acc + ' AND (' + c.name + ' = ' + rhs + ')'
+            endif
+        )
+
+    endif;

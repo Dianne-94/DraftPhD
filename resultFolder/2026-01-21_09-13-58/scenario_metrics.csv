@@ -1,0 +1,2 @@
+scenario,model,agents,traits,states,transitions,gen_time_s,verify_time_s,mem_mb
+EASY,temp_model.sm,0,0,0,0,-1.0,0.9711223,10

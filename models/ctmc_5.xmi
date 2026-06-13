@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ctmc="http://example/ctmc">
+  <ctmc:CTMC name="FireRescue_Easy" utility="0.95" guardExpression="(verificationHorizon = 10) AND (timeUnit = &quot;seconds&quot;) AND (fireSpreadInterval = 3) AND (ensembleFormation = 0.9) AND (brigadesMin = 6) AND (initialWaterTank = 3) AND (fireIntensity = 1) AND (travelSuccess = 1.0) AND (extinguishSuccess = 0.9) AND (trafficCongestion = &quot;none&quot;) AND (gridWidth = 10) AND (gridHeight = 10)"/>
+  <ctmc:CTMC name="FireBrigade">
+    <states id="Idle" name="Idle"/>
+    <states id="Operational" name="Operational"/>
+    <states id="Extinguishing" name="Extinguishing"/>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="FireBrigade2"/>
+  <ctmc:CTMC name="FireBrigade3"/>
+  <ctmc:CTMC name="FireBrigade4"/>
+  <ctmc:CTMC name="FireBrigade5"/>
+  <ctmc:CTMC name="FireBrigade6"/>
+  <ctmc:CTMC name="Building_B29952">
+    <states id="Burning" name="Burning"/>
+  </ctmc:CTMC>
+  <ctmc:CTMC name="Building_B19787">
+    <states id="Burning" name="Burning"/>
+  </ctmc:CTMC>
+</xmi:XMI>

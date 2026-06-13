@@ -1,0 +1,121 @@
+ctmc
+
+// Grid from XMI
+const int X_MAX = 10;
+const int Y_MAX = 10;
+
+// Constants extracted from guardExpression
+const int FIRE_INTENSITY = 3;
+const int WATER_LEVEL = 3;
+const int NUMBER_OF_AGENTS = 6;
+const bool WITHIN_GRID = true;
+const int AGENT_DISTANCE = 1;
+
+// Formula reconstructed from guardExpression (uses constants declared above)
+formula COND_ALL = (FIRE_INTENSITY=3) & (WATER_LEVEL=3) & (NUMBER_OF_AGENTS=6) & (WITHIN_GRID=true) & (AGENT_DISTANCE=1);
+
+global water_level : [0..WATER_LEVEL] init 0;
+global distance_level : [0..AGENT_DISTANCE] init AGENT_DISTANCE;
+
+label "water_level_empty" = (water_level=0);
+label "water_level_low"   = (water_level <= 1);
+label "distance_level_empty" = (distance_level=0);
+label "distance_level_low"   = (distance_level <= 1);
+
+module fireTruck1
+    // States: 0=Idle, 1=Navigating, 2=Extinguishing
+    fireTruck1_state : [0..2] init 0;
+
+    // Transitions parsed from XMI
+    [fireTruck1_Idle_to_Navigating] fireTruck1_state=0 & COND_ALL -> 1.20 : (fireTruck1_state'=1);
+    [fireTruck1_Navigating_to_Extinguishing] fireTruck1_state=1 & COND_ALL -> 1.00 : (fireTruck1_state'=2);
+    [fireTruck1_Extinguishing_to_Idle] fireTruck1_state=2 & COND_ALL -> 1.10 : (fireTruck1_state'=0);
+
+endmodule
+
+module fireTruck2
+    // States: 0=Idle, 1=Navigating, 2=Extinguishing
+    fireTruck2_state : [0..2] init 0;
+
+    // Transitions parsed from XMI
+    [fireTruck2_Idle_to_Navigating] fireTruck2_state=0 & COND_ALL -> 1.20 : (fireTruck2_state'=1);
+    [fireTruck2_Navigating_to_Extinguishing] fireTruck2_state=1 & COND_ALL -> 1.00 : (fireTruck2_state'=2);
+    [fireTruck2_Extinguishing_to_Idle] fireTruck2_state=2 & COND_ALL -> 1.10 : (fireTruck2_state'=0);
+
+endmodule
+
+module fireTruck3
+    // States: 0=Idle, 1=Navigating, 2=Extinguishing
+    fireTruck3_state : [0..2] init 0;
+
+    // Transitions parsed from XMI
+    [fireTruck3_Idle_to_Navigating] fireTruck3_state=0 & COND_ALL -> 1.20 : (fireTruck3_state'=1);
+    [fireTruck3_Navigating_to_Extinguishing] fireTruck3_state=1 & COND_ALL -> 1.00 : (fireTruck3_state'=2);
+    [fireTruck3_Extinguishing_to_Idle] fireTruck3_state=2 & COND_ALL -> 1.10 : (fireTruck3_state'=0);
+
+endmodule
+
+module fireTruck4
+    // States: 0=Idle, 1=Navigating, 2=Extinguishing
+    fireTruck4_state : [0..2] init 0;
+
+    // Transitions parsed from XMI
+    [fireTruck4_Idle_to_Navigating] fireTruck4_state=0 & COND_ALL -> 1.20 : (fireTruck4_state'=1);
+    [fireTruck4_Navigating_to_Extinguishing] fireTruck4_state=1 & COND_ALL -> 1.00 : (fireTruck4_state'=2);
+    [fireTruck4_Extinguishing_to_Idle] fireTruck4_state=2 & COND_ALL -> 1.10 : (fireTruck4_state'=0);
+
+endmodule
+
+module fireTruck5
+    // States: 0=Idle, 1=Navigating, 2=Extinguishing
+    fireTruck5_state : [0..2] init 0;
+
+    // Transitions parsed from XMI
+    [fireTruck5_Idle_to_Navigating] fireTruck5_state=0 & COND_ALL -> 1.20 : (fireTruck5_state'=1);
+    [fireTruck5_Navigating_to_Extinguishing] fireTruck5_state=1 & COND_ALL -> 1.00 : (fireTruck5_state'=2);
+    [fireTruck5_Extinguishing_to_Idle] fireTruck5_state=2 & COND_ALL -> 1.10 : (fireTruck5_state'=0);
+
+endmodule
+
+module fireTruck6
+    // States: 0=Idle, 1=Navigating, 2=Extinguishing
+    fireTruck6_state : [0..2] init 0;
+
+    // Transitions parsed from XMI
+    [fireTruck6_Idle_to_Navigating] fireTruck6_state=0 & COND_ALL -> 1.20 : (fireTruck6_state'=1);
+    [fireTruck6_Navigating_to_Extinguishing] fireTruck6_state=1 & COND_ALL -> 1.00 : (fireTruck6_state'=2);
+    [fireTruck6_Extinguishing_to_Idle] fireTruck6_state=2 & COND_ALL -> 1.10 : (fireTruck6_state'=0);
+
+endmodule
+
+label "fireTruck1_state_Idle" = (fireTruck1_state=0);
+label "fireTruck1_state_Navigating" = (fireTruck1_state=1);
+label "fireTruck1_state_Extinguishing" = (fireTruck1_state=2);
+
+label "fireTruck2_state_Idle" = (fireTruck2_state=0);
+label "fireTruck2_state_Navigating" = (fireTruck2_state=1);
+label "fireTruck2_state_Extinguishing" = (fireTruck2_state=2);
+
+label "fireTruck3_state_Idle" = (fireTruck3_state=0);
+label "fireTruck3_state_Navigating" = (fireTruck3_state=1);
+label "fireTruck3_state_Extinguishing" = (fireTruck3_state=2);
+
+label "fireTruck4_state_Idle" = (fireTruck4_state=0);
+label "fireTruck4_state_Navigating" = (fireTruck4_state=1);
+label "fireTruck4_state_Extinguishing" = (fireTruck4_state=2);
+
+label "fireTruck5_state_Idle" = (fireTruck5_state=0);
+label "fireTruck5_state_Navigating" = (fireTruck5_state=1);
+label "fireTruck5_state_Extinguishing" = (fireTruck5_state=2);
+
+label "fireTruck6_state_Idle" = (fireTruck6_state=0);
+label "fireTruck6_state_Navigating" = (fireTruck6_state=1);
+label "fireTruck6_state_Extinguishing" = (fireTruck6_state=2);
+
+label "allAvailableModules_reachIdle" = (fireTruck1_state=0 & fireTruck2_state=0 & fireTruck3_state=0 & fireTruck4_state=0 & fireTruck5_state=0 & fireTruck6_state=0);
+label "allModules_reachIdle" = (fireTruck1_state=0 & fireTruck2_state=0 & fireTruck3_state=0 & fireTruck4_state=0 & fireTruck5_state=0 & fireTruck6_state=0);
+label "allAvailableModules_reachNavigating" = (fireTruck1_state=1 & fireTruck2_state=1 & fireTruck3_state=1 & fireTruck4_state=1 & fireTruck5_state=1 & fireTruck6_state=1);
+label "allModules_reachNavigating" = (fireTruck1_state=1 & fireTruck2_state=1 & fireTruck3_state=1 & fireTruck4_state=1 & fireTruck5_state=1 & fireTruck6_state=1);
+label "allAvailableModules_reachExtinguishing" = (fireTruck1_state=2 & fireTruck2_state=2 & fireTruck3_state=2 & fireTruck4_state=2 & fireTruck5_state=2 & fireTruck6_state=2);
+label "allModules_reachExtinguishing" = (fireTruck1_state=2 & fireTruck2_state=2 & fireTruck3_state=2 & fireTruck4_state=2 & fireTruck5_state=2 & fireTruck6_state=2);
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctmc="http://example/ctmc" xmlns:tcoel="http://example/tcoel">
+  <ctmc:CTMC name="FireBrigadeEnsemble_Easy" guardExpression="noCondition"/>
+  <ctmc:CTMC name="fireTruck1">
+    <transition xsi:type="tcoel:Transition" name="dispatch" rate="1.0">
+      <initial name="Idle"/>
+      <target name="Navigating"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="arrive" rate="0.9">
+      <initial name="Navigating"/>
+      <target name="Extinguishing"/>
+    </transition>
+    <transition xsi:type="tcoel:Transition" name="extinguish_ok" rate="0.8">
+      <initial name="Extinguishing"/>
+      <target name="Idle"/>
+    </transition>
+  </ctmc:CTMC>
+</xmi:XMI>
